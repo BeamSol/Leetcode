@@ -1,0 +1,30 @@
+1class Solution:
+2    def numberOfPaths(self, grid: List[List[int]], k: int) -> int:
+3        m = len(grid)
+4        n = len(grid[0])
+5        MOD = 10**9 +7
+6        memo = {}
+7
+8        def dp(i, j, sum_):
+9            if i == m-1 and j == n-1: 
+10                return 1 if sum_ % k == 0 else 0
+11
+12            state = (i, j, sum_)
+13            if state in memo:
+14                return memo[state]
+15
+16            temp = 0
+17
+18            if i+1 < m:
+19                temp += dp(i+1, j, (sum_ + grid[i+1][j]) % k)
+20                temp %= MOD
+21
+22            if j+1 < n:
+23                temp += dp(i, j+1, (sum_ + grid[i][j+1]) % k)
+24                temp %= MOD
+25
+26            memo[state] = temp
+27            return temp
+28
+29        return dp(0, 0, grid[0][0] % k)
+30
